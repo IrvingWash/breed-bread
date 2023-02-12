@@ -3,6 +3,7 @@ import { useObservable } from '@ui-kit/hooks/use-observable';
 import React from 'react';
 
 import { IRecipeViewModel } from '../recipe-view-model';
+import { IngredientControl } from './ingredient-control';
 
 interface RecipeViewProps {
 	viewModel: IRecipeViewModel;
@@ -23,7 +24,7 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 
 	function renderIngredientControls(): JSX.Element[] {
 		return ingredientControls.map((control) => (
-			<div key={ control.id }>Control</div>
+			<IngredientControl key={ control.id } />
 		));
 	}
 
