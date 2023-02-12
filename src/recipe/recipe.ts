@@ -1,3 +1,5 @@
+import Big from 'big.js';
+
 import { Ingredient } from './ingredient';
 
 export const enum BreadWeight {
@@ -51,7 +53,10 @@ export class Recipe implements IRecipe {
 
 	private _convertIngredientWeights(): void {
 		this._ingredients.forEach((ingredient) => {
-			ingredient.convertedWeight = ingredient.defaultWeight / BreadWeight.Medium * this._breadWeight;
+			ingredient.convertedWeight = Big(ingredient.defaultWeight)
+				.div(BreadWeight.Medium)
+				.mul(this._breadWeight)
+				.toNumber();
 		});
 	}
 }
