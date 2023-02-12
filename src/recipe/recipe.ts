@@ -1,6 +1,6 @@
 import Big from 'big.js';
 
-import { Ingredient } from './ingredient';
+import { IIngredient } from './ingredient';
 
 export const enum BreadWeight {
 	Small = 500,
@@ -10,26 +10,26 @@ export const enum BreadWeight {
 
 export interface IRecipe {
 	getBreadWeight(): BreadWeight;
-	getIngredients(): Set<Ingredient>;
+	getIngredients(): IIngredient[];
 	setBreadWeight(weight: BreadWeight): void;
-	addIngredient(ingredient: Ingredient): void;
-	removeIngredient(ingredient: Ingredient): void;
+	addIngredient(ingredient: IIngredient): void;
+	removeIngredient(id: number): void;
 }
 
 export class Recipe implements IRecipe {
 	private _breadWeight: BreadWeight;
-	private _ingredients: Set<Ingredient>;
+	private _ingredients: IIngredient[];
 
-	public constructor(breadWeight?: BreadWeight, ingredients?: Set<Ingredient>) {
+	public constructor(breadWeight?: BreadWeight, ingredients?: IIngredient[]) {
 		this._breadWeight = breadWeight ?? BreadWeight.Medium;
-		this._ingredients = ingredients ?? new Set();
+		this._ingredients = ingredients ?? [];
 	}
 
 	public getBreadWeight(): BreadWeight {
 		return this._breadWeight;
 	}
 
-	public getIngredients(): Set<Ingredient> {
+	public getIngredients(): IIngredient[] {
 		return this._ingredients;
 	}
 
@@ -43,12 +43,14 @@ export class Recipe implements IRecipe {
 		this._convertIngredientWeights();
 	}
 
-	public addIngredient(ingredient: Ingredient): void {
-		this._ingredients.add(ingredient);
+	public addIngredient(ingredient: IIngredient): void {
+		this._ingredients.push(ingredient);
 	}
 
-	public removeIngredient(ingredient: Ingredient): void {
-		this._ingredients.delete(ingredient);
+	public removeIngredient(id: number): void {
+		const index = this._ingredients.findIndex((ingredient) => ingredient.id === id);
+
+		this._ingredients.splice(index, 1);
 	}
 
 	private _convertIngredientWeights(): void {
