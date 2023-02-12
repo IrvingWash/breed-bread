@@ -9,41 +9,42 @@ export interface IngredientInput {
 }
 
 export interface IRecipeViewModel {
-	addIngredientInput(): void;
-	getIngredientInputs(): IngredientInput[];
+	convertedIngredients$: Observable<IIngredient[]>;
+	ingredientControls$: Observable<IngredientInput[]>;
+	addIngredientControl(): void;
+	getIngredientControls(): IngredientInput[];
 	convertWeights(breadWeight: BreadWeight): void;
 	getConvertedIngredients(): IIngredient[];
 }
 
 export class RecipeViewModel implements IRecipeViewModel {
 	public convertedIngredients$: Observable<IIngredient[]>;
-	public ingredientInputs$: Observable<IngredientInput[]>;
+	public ingredientControls$: Observable<IngredientInput[]>;
 
 	private _recipe: IRecipe;
 	private _ingredientID: number;
 
 	public constructor() {
-		this.convertedIngredients$ = new Observable<IIngredient[]>([]);
-
-		this.ingredientInputs$ = new Observable<IngredientInput[]>([]);
-		this.addIngredientInput();
-
 		this._recipe = new Recipe();
 		this._ingredientID = 0;
+
+		this.convertedIngredients$ = new Observable<IIngredient[]>([]);
+		this.ingredientControls$ = new Observable<IngredientInput[]>([]);
+		this.addIngredientControl();
 	}
 
-	public addIngredientInput(): void {
-		const inputs = this.getIngredientInputs();
+	public addIngredientControl(): void {
+		const inputs = this.getIngredientControls();
 
 		inputs.push({ id: this._ingredientID, name: '', weight: 0 });
 
-		this.ingredientInputs$.setValue(inputs);
+		this.ingredientControls$.setValue(inputs);
 
 		this._ingredientID++;
 	}
 
-	public getIngredientInputs(): IngredientInput[] {
-		return this.ingredientInputs$.getValue();
+	public getIngredientControls(): IngredientInput[] {
+		return this.ingredientControls$.getValue();
 	}
 
 	public convertWeights(breadWeight: BreadWeight): void {
@@ -59,7 +60,7 @@ export class RecipeViewModel implements IRecipeViewModel {
 	}
 
 	private _saveIngredients(): void {
-		this.ingredientInputs$.getValue().forEach((ingredientInput) => {
+		this.ingredientControls$.getValue().forEach((ingredientInput) => {
 			this._recipe.addIngredient(
 				new Ingredient(
 					ingredientInput.id,

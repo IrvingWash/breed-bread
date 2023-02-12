@@ -7,11 +7,19 @@ export function useObservable<T>(observable$: Observable<T>, initialValue: T): T
 
 	useEffect(
 		() => {
-			observable$.subscribe(setValue);
+			observable$.subscribe(observer);
 			return () => observable$.unsubscribe();
 		},
 		[observable$]
 	);
+
+	function observer(newValue: T): void {
+		if (Array.isArray(newValue)) {
+			return setValue([...newValue] as T);
+		}
+
+		setValue(newValue);
+	}
 
 	return value;
 }
