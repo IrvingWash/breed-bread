@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IIngredient } from '../ingredient';
+import { IIngredient } from '../../ingredient';
 
 import * as s from './converted-weights-display.pcss';
 

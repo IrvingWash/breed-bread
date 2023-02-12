@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Select } from '@ui-kit/components/select/select';
 
-import { BreadWeight } from '../recipe';
+import { BreadWeight } from '../../recipe';
 
 import * as s from './bread-weight-select.pcss';
 import classNames from 'classnames';

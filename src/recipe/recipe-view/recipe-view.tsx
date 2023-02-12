@@ -5,9 +5,9 @@ import { useObservable } from '@ui-kit/hooks/use-observable';
 
 import { BreadWeight } from '../recipe';
 import { IRecipeViewModel } from '../recipe-view-model';
-import { IngredientControl } from './ingredient-control';
-import { ConvertedWeightsDisplay } from './converted-weights-display';
-import { BreadWeightSelect } from './bread-weight-select';
+import { IngredientControl } from './ingredient-control/ingredient-control';
+import { ConvertedWeightsDisplay } from './converted-weights-display/converted-weights-display';
+import { BreadWeightSelect } from './bread-weight-select/bread-weight-select';
 
 import * as s from './recipe-view.pcss';
 
