@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 
 import { Button } from '@ui-kit/components/button/button';
 import { useObservable } from '@ui-kit/hooks/use-observable';
-import { Select } from '@ui-kit/components/select/select';
 
 import { BreadWeight } from '../recipe';
 import { IRecipeViewModel } from '../recipe-view-model';
 import { IngredientControl } from './ingredient-control';
 import { ConvertedWeightsDisplay } from './converted-weights-display';
+import { BreadWeightSelect } from './bread-weight-select';
+
+import * as s from './recipe-view.pcss';
 
 interface RecipeViewProps {
 	viewModel: IRecipeViewModel;
@@ -30,17 +32,20 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 	}
 
 	return (
-		<div>
-			<Select
-				value={ String(breadWeight) }
+		<div className={ s.recipeView }>
+			<BreadWeightSelect
+				className={ s.breadWeightSelect }
+				onWeightChange={ handleBreadWeightSelect }
 				options={ makeSelectOptions() }
-				changeHandler={ handleBreadWeightSelect }
+				weight={ breadWeight }
 			/>
 
 			{ renderIngredientControls() }
 
-			<Button text='Add ingredient' onClick={ addIngredientControl } />
-			<Button text='Convert' onClick={ convertWeights } />
+			<div className={ s.actionButtons }>
+				<Button text='Add ingredient' onClick={ addIngredientControl } />
+				<Button text='Convert' onClick={ convertWeights } />
+			</div>
 
 			{ isConverted &&
 				<ConvertedWeightsDisplay
