@@ -24,11 +24,33 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 
 	function renderIngredientControls(): JSX.Element[] {
 		return ingredientControls.map((control) => (
-			<IngredientControl key={ control.id } />
+			<IngredientControl
+				key={ control.id }
+				id={ control.id }
+				name={ control.name }
+				weight={ control.weight }
+				onControlChange={ handleControlChange }
+			/>
 		));
 	}
 
 	function addIngredientControl(): void {
 		viewModel.addIngredientControl();
+	}
+
+	function handleControlChange(id: number, data: { name?: string, weight?: number }): void {
+		const controlToChange = ingredientControls.find((control) => control.id === id);
+
+		if (controlToChange === undefined) {
+			return;
+		}
+
+		if (data.name !== undefined) {
+			controlToChange.name = data.name;
+		}
+
+		if (data.weight !== undefined) {
+			controlToChange.weight = data.weight;
+		}
 	}
 }
