@@ -56,6 +56,7 @@ export class Recipe implements IRecipe {
 			ingredient.convertedWeight = Big(ingredient.defaultWeight)
 				.div(BreadWeight.Medium)
 				.mul(this._breadWeight)
+				.round()
 				.toNumber();
 		});
 	}
