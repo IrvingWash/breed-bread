@@ -1,0 +1,58 @@
+{
+	"compilerOptions": {
+		"target": "ES6",
+		"lib": ["DOM", "ESNext"],
+		"jsx": "react",
+		"module": "ESNext",
+		"rootDir": "./",
+		"moduleResolution": "node",
+		"baseUrl": "./",
+		"paths": {
+			"@ui-kit/*": ["./src/ui-kit/*"],
+			"@common/*": ["./src/common/*"]
+		},
+		"resolveJsonModule": true,
+		"allowJs": true,
+		"checkJs": true,
+		"sourceMap": true,
+		"isolatedModules": true,
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"noImplicitAny": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": true,
+		"noImplicitThis": true,
+		"useUnknownInCatchVariables": true,
+		"alwaysStrict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"allowUnusedLabels": true,
+		"allowUnreachableCode": false,
+		"skipLibCheck": true
+	},
+	"ts-node": {
+		"compilerOptions": {
+			"module": "CommonJS"
+		}
+	},
+	"include": [
+		"src",
+		"declarations.d.ts",
+		"webpack/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"dist",
+		"husky",
+		"postcss.config.js"
+	]
+}
