@@ -1,9 +1,12 @@
+import React, { useState } from 'react';
+
 import { Button } from '@ui-kit/button/button';
 import { useObservable } from '@ui-kit/hooks/use-observable';
-import React from 'react';
 
+import { BreadWeight } from '../recipe';
 import { IRecipeViewModel } from '../recipe-view-model';
 import { IngredientControl } from './ingredient-control';
+import { ConvertedWeightsDisplay } from './converted-weights-display';
 
 interface RecipeViewProps {
 	viewModel: IRecipeViewModel;
@@ -14,12 +17,20 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 
 	const ingredientControls = useObservable(viewModel.ingredientControls$, viewModel.getIngredientControls());
 
+	const [isConverted, setIsConverted] = useState(false);
+
 	return (
 		<div>
 			{ renderIngredientControls() }
 
 			<Button text='Add ingredient' onClick={ addIngredientControl } />
-			<Button text='Convert' />
+			<Button text='Convert' onClick={ convertWeights } />
+
+			{ isConverted &&
+				<ConvertedWeightsDisplay
+					ingredients={ viewModel.getConvertedIngredients() }
+				/>
+			}
 		</div>
 	);
 
@@ -36,6 +47,8 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 	}
 
 	function addIngredientControl(): void {
+		setIsConverted(false);
+
 		viewModel.addIngredientControl();
 	}
 
@@ -53,5 +66,12 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 		if (data.weight !== undefined) {
 			controlToChange.weight = data.weight;
 		}
+	}
+
+	function convertWeights(): void {
+		// TODO: Remove hardcode
+		viewModel.convertWeights(BreadWeight.Large);
+
+		setIsConverted(true);
 	}
 }

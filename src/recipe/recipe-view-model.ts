@@ -60,6 +60,8 @@ export class RecipeViewModel implements IRecipeViewModel {
 	}
 
 	private _saveIngredients(): void {
+		this._recipe.clearIngredients();
+
 		this.ingredientControls$.getValue().forEach((ingredientInput) => {
 			this._recipe.addIngredient(
 				new Ingredient(

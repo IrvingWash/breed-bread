@@ -14,6 +14,7 @@ export interface IRecipe {
 	setBreadWeight(weight: BreadWeight): void;
 	addIngredient(ingredient: IIngredient): void;
 	removeIngredient(id: number): void;
+	clearIngredients(): void;
 }
 
 export class Recipe implements IRecipe {
@@ -45,6 +46,10 @@ export class Recipe implements IRecipe {
 
 	public addIngredient(ingredient: IIngredient): void {
 		this._ingredients.push(ingredient);
+	}
+
+	public clearIngredients(): void {
+		this._ingredients = [];
 	}
 
 	public removeIngredient(id: number): void {
