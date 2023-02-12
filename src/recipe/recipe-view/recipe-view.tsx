@@ -18,7 +18,8 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 		<div>
 			{ renderIngredientControls() }
 
-			<Button text="Add ingredient" onClick={ addIngredientControl } />
+			<Button text='Add ingredient' onClick={ addIngredientControl } />
+			<Button text='Convert' />
 		</div>
 	);
 

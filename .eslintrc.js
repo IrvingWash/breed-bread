@@ -28,5 +28,6 @@ module.exports = {
 				"when": "always"
 			}
 		}],
+		"jsx-quotes": ["error", "prefer-single"],
 	},
 };
