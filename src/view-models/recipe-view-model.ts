@@ -1,3 +1,4 @@
+import { Observable } from 'src/helpers/observable';
 import { IIngredient, Ingredient } from 'src/recipe/ingredient';
 import { BreadWeight, IRecipe, Recipe } from 'src/recipe/recipe';
 
@@ -10,35 +11,55 @@ export interface IngredientInput {
 export interface IRecipeViewModel {
 	addIngredientInput(): void;
 	getIngredientInputs(): IngredientInput[];
-	saveIngredients(): void;
-	convertWeights(breadWeight: BreadWeight): IIngredient[];
+	convertWeights(breadWeight: BreadWeight): void;
+	getConvertedIngredients(): IIngredient[];
 }
 
 export class RecipeViewModel implements IRecipeViewModel {
-	private _recipe: IRecipe;
+	public convertedIngredients$: Observable<IIngredient[]>;
+	public ingredientInputs$: Observable<IngredientInput[]>;
 
-	private _ingredientInputs: IngredientInput[];
-	private _ingredientID = 0;
+	private _recipe: IRecipe;
+	private _ingredientID: number;
 
 	public constructor() {
-		this._recipe = new Recipe();
+		this.convertedIngredients$ = new Observable<IIngredient[]>([]);
 
-		this._ingredientInputs = [];
+		this.ingredientInputs$ = new Observable<IngredientInput[]>([]);
 		this.addIngredientInput();
+
+		this._recipe = new Recipe();
+		this._ingredientID = 0;
 	}
 
 	public addIngredientInput(): void {
-		this._ingredientInputs.push({ id: this._ingredientID, name: '', weight: 0 });
+		const inputs = this.getIngredientInputs();
+
+		inputs.push({ id: this._ingredientID, name: '', weight: 0 });
+
+		this.ingredientInputs$.setValue(inputs);
 
 		this._ingredientID++;
 	}
 
 	public getIngredientInputs(): IngredientInput[] {
-		return this._ingredientInputs;
+		return this.ingredientInputs$.getValue();
 	}
 
-	public saveIngredients(): void {
-		this._ingredientInputs.forEach((ingredientInput) => {
+	public convertWeights(breadWeight: BreadWeight): void {
+		this._saveIngredients();
+
+		this._recipe.setBreadWeight(breadWeight);
+
+		this.convertedIngredients$.setValue(this._recipe.getIngredients());
+	}
+
+	public getConvertedIngredients(): IIngredient[] {
+		return this.convertedIngredients$.getValue();
+	}
+
+	private _saveIngredients(): void {
+		this.ingredientInputs$.getValue().forEach((ingredientInput) => {
 			this._recipe.addIngredient(
 				new Ingredient(
 					ingredientInput.id,
@@ -47,11 +68,5 @@ export class RecipeViewModel implements IRecipeViewModel {
 				)
 			);
 		});
-	}
-
-	public convertWeights(breadWeight: BreadWeight): IIngredient[] {
-		this._recipe.setBreadWeight(breadWeight);
-
-		return this._recipe.getIngredients();
 	}
 }
