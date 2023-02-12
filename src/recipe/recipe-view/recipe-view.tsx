@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
-import { Button } from '@ui-kit/button/button';
+import { Button } from '@ui-kit/components/button/button';
 import { useObservable } from '@ui-kit/hooks/use-observable';
+import { Select } from '@ui-kit/components/select/select';
 
 import { BreadWeight } from '../recipe';
 import { IRecipeViewModel } from '../recipe-view-model';
@@ -18,9 +19,24 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 	const ingredientControls = useObservable(viewModel.ingredientControls$, viewModel.getIngredientControls());
 
 	const [isConverted, setIsConverted] = useState(false);
+	const [breadWeight, setBreadWeight] = useState(BreadWeight.Medium);
+
+	function makeSelectOptions(): string[] {
+		return [
+			String(BreadWeight.Small),
+			String(BreadWeight.Medium),
+			String(BreadWeight.Large),
+		];
+	}
 
 	return (
 		<div>
+			<Select
+				value={ String(breadWeight) }
+				options={ makeSelectOptions() }
+				changeHandler={ handleBreadWeightSelect }
+			/>
+
 			{ renderIngredientControls() }
 
 			<Button text='Add ingredient' onClick={ addIngredientControl } />
@@ -33,6 +49,16 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 			}
 		</div>
 	);
+
+	function handleBreadWeightSelect(event: React.ChangeEvent<HTMLSelectElement>): void {
+		const value = Number(event.target.value);
+
+		if (isNaN(value)) {
+			throw new Error('Bread weight must be a number');
+		}
+
+		setBreadWeight(value);
+	}
 
 	function renderIngredientControls(): JSX.Element[] {
 		return ingredientControls.map((control) => (
@@ -69,8 +95,7 @@ export function RecipeView(props: RecipeViewProps): JSX.Element {
 	}
 
 	function convertWeights(): void {
-		// TODO: Remove hardcode
-		viewModel.convertWeights(BreadWeight.Large);
+		viewModel.convertWeights(breadWeight);
 
 		setIsConverted(true);
 	}

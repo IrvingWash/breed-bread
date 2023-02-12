@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Input } from '@ui-kit/input/input';
+import { Input } from '@ui-kit/components/input/input';
 
 import * as s from './ingredient-control.pcss';
 

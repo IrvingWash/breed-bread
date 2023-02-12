@@ -2,7 +2,7 @@ import Big from 'big.js';
 
 import { IIngredient } from './ingredient';
 
-export const enum BreadWeight {
+export enum BreadWeight {
 	Small = 500,
 	Medium = 750,
 	Large = 1000,
